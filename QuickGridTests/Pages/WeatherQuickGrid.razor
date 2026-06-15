@@ -3,8 +3,8 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 
 <PageTitle>Quick Grid</PageTitle>
-
-<QuickGrid TGridItem="WeatherForecast"
+<Microsoft.FluentUI.AspNetCore.Components.FluentSwitch @bind-Value="@virtualize" Label="Virtualize" /> 
+<QuickGrid TGridItem="WeatherForecast" Virtualize="@virtualize"
                 Items="@forecasts">
     <PropertyColumn Title="Date" Property="@(c => c.Date)" Sortable="true" />
     <PropertyColumn Title="Temp. (C)" Property="@(c => c.TemperatureC)" Sortable="true" Align="Align.Center" />
@@ -14,7 +14,7 @@
 
 @code {
     private IQueryable<WeatherForecast>? forecasts;
-
+    private bool virtualize = false;
     private Stopwatch _eventToRenderWatch = new();
     private int _renderCount;
 
@@ -25,7 +25,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        forecasts = Enumerable.Range(1, 505).Select(index => new WeatherForecast
+        forecasts = Enumerable.Range(1, 500).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),

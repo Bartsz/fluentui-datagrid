@@ -4,7 +4,8 @@
 
 <PageTitle>Fluent Data Grid</PageTitle>
 
-<FluentDataGrid TGridItem="WeatherForecast"
+<FluentSwitch @bind-Value="@virtualize" Label="Virtualize" />
+<FluentDataGrid TGridItem="WeatherForecast" Virtualize="@virtualize"
                 Items="@forecasts">
     <PropertyColumn Title="Date" Property="@(c => c.Date)" Sortable="true" />
     <PropertyColumn Title="Temp. (C)" Property="@(c => c.TemperatureC)" Sortable="true" Align="DataGridCellAlignment.Center" />
@@ -14,6 +15,7 @@
 
 @code {
     private IQueryable<WeatherForecast>? forecasts;
+    private bool virtualize = false;
 
     private Stopwatch _eventToRenderWatch = new();
     private int _renderCount;
@@ -25,7 +27,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        forecasts = Enumerable.Range(1, 505).Select(index => new WeatherForecast
+        forecasts = Enumerable.Range(1, 500).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             TemperatureC = Random.Shared.Next(-20, 55),
