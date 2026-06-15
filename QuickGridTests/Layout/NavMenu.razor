@@ -1,0 +1,16 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components
+<FluentNav 
+           Id="main-menu" Width="250px"
+           Style="height:100%;"
+           UseIcons="true"
+           UseSingleExpanded="false"
+           Density="NavDensity.Medium">
+
+    <FluentNavItem Href="/" Match="NavLinkMatch.All" IconRest="@(new Icons.Regular.Size20.Home())" IconActive="@(new Icons.Filled.Size20.Home())" IconColor="Color.Accent">Home</FluentNavItem>
+    <FluentNavItem Href="weather-quick-grid" IconRest="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconActive="@(new Icons.Filled.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">Quick Grid</FluentNavItem>
+    <FluentNavItem Href="weather-fluent-dataGrid" IconRest="@(new Icons.Regular.Size20.WeatherPartlyCloudyDay())" IconActive="@(new Icons.Filled.Size20.WeatherPartlyCloudyDay())" IconColor="Color.Accent">FluentUI DataGrid</FluentNavItem>
+</FluentNav>
+
+@code {
+    private bool expanded = true;
+}

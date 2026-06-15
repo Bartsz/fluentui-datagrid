@@ -1,0 +1,62 @@
+﻿@page "/weather-fluent-dataGrid"
+@using System.Diagnostics
+@using Microsoft.FluentUI.AspNetCore.Components
+
+<PageTitle>Fluent Data Grid</PageTitle>
+
+<FluentDataGrid TGridItem="WeatherForecast"
+                Items="@forecasts">
+    <PropertyColumn Title="Date" Property="@(c => c.Date)" Sortable="true" />
+    <PropertyColumn Title="Temp. (C)" Property="@(c => c.TemperatureC)" Sortable="true" Align="DataGridCellAlignment.Center" />
+    <PropertyColumn Title="Temp. (F)" Property="@(c => c.TemperatureF)" Sortable="true" Align="DataGridCellAlignment.Center" />
+    <PropertyColumn Title="Summary" Property="@(c => c.Summary)" Sortable="true" Align="DataGridCellAlignment.End" />
+</FluentDataGrid>
+
+@code {
+    private IQueryable<WeatherForecast>? forecasts;
+
+    private Stopwatch _eventToRenderWatch = new();
+    private int _renderCount;
+
+    private void HandleOnSortChanged()
+    {
+        _eventToRenderWatch.Restart();
+    }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        forecasts = Enumerable.Range(1, 505).Select(index => new WeatherForecast
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = (index % 5) switch
+            {
+                0 => "Freezing",
+                1 => "Bracing",
+                2 => "Chilly",
+                3 => "Cool",
+                4 => "Mild",
+                5 => "Warm",
+                _ => "Balmy",
+
+            }
+        })
+         .ToList()
+         .AsQueryable();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _renderCount++;
+
+        if (_eventToRenderWatch.IsRunning)
+        {
+            _eventToRenderWatch.Stop();
+            Debug.WriteLine($"Event to render: {_eventToRenderWatch.Elapsed.TotalMilliseconds,7:N6}ms");
+            _eventToRenderWatch.Reset();
+        }
+
+        Debug.WriteLine($"Render #{_renderCount}, firstRender={firstRender}");
+    }
+
+}

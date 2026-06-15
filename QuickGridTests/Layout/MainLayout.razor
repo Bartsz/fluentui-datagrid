@@ -1,0 +1,25 @@
+﻿@using Microsoft.FluentUI.AspNetCore.Components
+@inherits LayoutComponentBase
+
+<FluentLayout>
+    <FluentLayoutItem Area="@LayoutArea.Header">
+       
+    </FluentLayoutItem>
+    <FluentLayoutItem Area="LayoutArea.Navigation" Height="100%">
+        <NavMenu />
+    </FluentLayoutItem>
+
+    <FluentLayoutItem Area="LayoutArea.Content">
+        <ErrorBoundary>
+            <ChildContent>
+                <div class="content">
+                    @Body
+                </div>
+            </ChildContent>
+            <ErrorContent Context="ex">
+                <div class="blazor-error-boundary">@ex.Message</div>
+            </ErrorContent>
+        </ErrorBoundary>
+    </FluentLayoutItem>
+     
+</FluentLayout> 
